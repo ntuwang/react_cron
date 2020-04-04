@@ -1,7 +1,8 @@
 import cookie from 'react-cookies'
 
 let headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
 }
 let token = localStorage.getItem('token')
 
