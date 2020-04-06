@@ -21,7 +21,8 @@ export default class CRouter extends Component {
     requireLogin = (component, permission) => {
 
         // if (!utils.getToken() && !utils.noAuth('login')){
-        if (!tools.getToken()){
+        let now = new Date().getTime()/1000
+        if (!tools.getToken() || tools.getItem('expireTime') < now){
             return <Redirect to={'/login'} />;
         }
         // if (process.env.NODE_ENV === 'production' && !permissions) {

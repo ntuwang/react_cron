@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="253px" height="54px" viewBox="0 0 253 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- 注意宽度问题 -->
+<svg width="200px" height="54px" viewBox="0 0 253 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
     <title>logo</title>
     <desc>Created with Sketch.</desc>
@@ -8,8 +9,8 @@
         <g id="logo2" transform="translate(-59.000000, -28.000000)" fill="#FFFFFF">
             <g id="list_bg">
                 <g id="logo" transform="translate(59.000000, 28.000000)">
-                    <text id="Atlantis" font-family="PingFang-SC-Medium, PingFang SC" font-size="35" font-weight="400">
-                        <tspan x="30" y="45">LOGO</tspan>
+                    <text id="Atlantis" font-family="PingFang-SC-Medium, PingFang SC" font-size="25" font-weight="400">
+                        <tspan x="20" y="45">Cron Admin</tspan>
                     </text>
                 </g>
             </g>

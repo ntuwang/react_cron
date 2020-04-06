@@ -7,6 +7,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-multi-spaces": 1,
+    "no-unused-vars": "off",
     "react/jsx-tag-spacing": 1,        // 总是在自动关闭的标签前加一个空格，正常情况下也不需要换行
     "jsx-quotes": 1,
     "react/jsx-closing-bracket-location": 1,    // 遵循JSX语法缩进/格式

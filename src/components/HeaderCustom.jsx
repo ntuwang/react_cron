@@ -4,7 +4,7 @@
 import React, {Component} from 'react';
 import avater from '../style/imgs/b1.jpg';
 import SiderCustom from './SiderCustom';
-import {Menu, Icon, Layout, Badge, Popover} from 'antd';
+import {Menu, Icon, Layout, Badge, Popover, Button, message} from 'antd';
 import {withRouter} from 'react-router-dom';
 import {PwaInstaller} from './widget';
 import {connectAlita} from 'redux-alita';
@@ -29,7 +29,7 @@ class HeaderCustom extends Component {
     componentDidMount() {
 
         if (tools.getToken()) {
-            _get('http://127.0.0.1:88/adm/auth', {}, res => {
+            _get('/api/user/LoginUser', {}, res => {
                 if (res.code == 200) {
                     let data = res.data
                     this.setState({user: data})
@@ -43,7 +43,8 @@ class HeaderCustom extends Component {
         e.key === 'logout' && this.logout();
     };
     logout = () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('expireTime');
         this.props.history.push('/login')
     };
     popoverHide = () => {
@@ -86,15 +87,16 @@ class HeaderCustom extends Component {
                     <SubMenu title={<span className="avatar"><img src={avater} alt="头像"/><i
                         className="on bottom b-white"/></span>}>
                         <MenuItemGroup title="用户中心">
-                            <Menu.Item key="setting:1">你好 - {this.state.user.name}</Menu.Item>
-                            <Menu.Item key="setting:2">个人信息</Menu.Item>
+                            <Menu.Item key="setting:2"><span onClick={()=>message.warning('功能开发中')}>个人信息</span></Menu.Item>
                             <Menu.Item key="logout"><span onClick={this.logout}>退出登录</span></Menu.Item>
                         </MenuItemGroup>
                         <MenuItemGroup title="设置中心">
-                            <Menu.Item key="setting:3">个人设置</Menu.Item>
-                            <Menu.Item key="setting:4">系统设置</Menu.Item>
+                            <Menu.Item key="setting:3"><span onClick={()=>message.warning('功能开发中')}>个人设置</span></Menu.Item>
+                            <Menu.Item key="setting:4"><span onClick={()=>message.warning('功能开发中')}>系统设置</span></Menu.Item>
                         </MenuItemGroup>
                     </SubMenu>
+                    <span>你好，{this.state.user.username}</span>
+                    {/*<Icon style={{marginLeft:'20px'}} type={'poweroff'}/>*/}
                 </Menu>
             </Header>
         )

@@ -4,11 +4,7 @@ let headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
 }
-let token = localStorage.getItem('token')
 
-if (token) {
-    headers.Authorization = token
-}
 
 function getOptions(uri, callback) {
 
@@ -30,6 +26,12 @@ function getOptions(uri, callback) {
 }
 
 function _get(uri, params, callback) {
+    let token = localStorage.getItem('token')
+
+    if (token) {
+        headers.Authorization = token
+    }
+
 
     if (params) {
         let paramsArray = [];
@@ -61,14 +63,20 @@ function _get(uri, params, callback) {
 }
 
 
-function _post(uri, params, callback) {
+function _post(uri, data, callback) {
+    let token = localStorage.getItem('token')
+
+    if (token) {
+        headers.Authorization = token
+    }
+
 
     //fetch请求
     return fetch(uri, {
         method: 'POST',
         headers: headers,
         credentials: 'same-origin',
-        body: JSON.stringify(params)
+        body: JSON.stringify(data)
     })
         .then(rs => {
             return rs.json();

@@ -4,10 +4,19 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
+import moment from "moment"
+
+
+let date = []
+for(let i=0;i<7;i++){
+    let j = 0 - i
+    let d = moment().add(j,'days').format('YYYY-MM-DD')
+    date.unshift(d)
+}
 
 const option = {
     title: {
-        text: '最近7天用户访问量',
+        text: '最近7天执行次数',
         left: '50%',
         show: false,
         textAlign: 'center'
@@ -32,7 +41,7 @@ const option = {
     },
     xAxis: {
         type: 'category',
-        data: ['2017-05-01', '2017-05-02', '2017-05-03', '2017-05-04', '2017-05-05', '2017-05-06','2017-05-07'],
+        data: date,
         boundaryGap: false,
         splitLine: {
             show: true,
@@ -85,7 +94,7 @@ const option = {
         showSymbol: false,
         symbol: 'circle',
         symbolSize: 6,
-        data: ['1200', '1400', '808', '811', '626', '488', '1600'],
+        data: ['12', '14', '8', '11', '6', '4', '16'],
         areaStyle: {
             normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{

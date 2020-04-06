@@ -71,8 +71,8 @@ class SiderCustom extends Component {
                 collapsed={collapsed}
                 style={{ overflowY: 'auto' }}
             >
-                {/*<div className="logo" />*/}
-                <div className="logo">{this.state.collapsed?"":<img className="logo-img" alt="永辉云创" src={LogoImg}/>}</div>
+                {/*<div className="logo">{this.state.collapsed?"":<img className="logo-img" alt="LOGO" src={LogoImg}/>}</div>*/}
+                <div className="logo">{this.state.collapsed?"":<span style={{width:'200px',color:'white',fontSize:'25px'}}>Cron Admin</span>}</div>
                 <SiderMenu
                     menus={routes.menus}
                     onClick={this.menuClick}

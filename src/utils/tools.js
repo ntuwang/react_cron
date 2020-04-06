@@ -22,10 +22,10 @@ tools.clearData = () => {
 	storage.clear();
 };
 tools.setToken = token => {
-	tools.setItem("bearer", token);
+	tools.setItem("token", token);
 };
 tools.getToken = () => {
-	return tools.getItem("bearer");
+	return tools.getItem("token");
 };
 // 获取保存的用户信息
 tools.getAuth = () => {
@@ -33,12 +33,12 @@ tools.getAuth = () => {
 		let token = Base64.decode(tools.getItem("bearer").split(".")[1]);
 		let auth = JSON.parse(token);
 		if (!auth.hasOwnProperty("id")) {
-			tools.removeItem("bearer");
+			tools.removeItem("token");
 			window.location.href = "/login";
 		}
 		return auth;
 	} catch (e) {
-		tools.removeItem("bearer");
+		tools.removeItem("token");
 		window.location.href = "/login";
 	}
 };
