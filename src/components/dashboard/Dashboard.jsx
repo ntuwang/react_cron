@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="clear">
                                     <div className="text-muted">用户数量</div>
-                                    <h2>301</h2>
+                                    <h2>3</h2>
                                 </div>
                             </div>
                         </Card>
@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="clear">
                                     <div className="text-muted">任务数量</div>
-                                    <h2>10</h2>
+                                    <h2>4</h2>
                                 </div>
                             </div>
                         </Card>

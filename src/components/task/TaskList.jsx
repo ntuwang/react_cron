@@ -28,13 +28,33 @@ class TaskList extends React.Component {
         })
     }
 
+    handleDelete(taskName) {
+        Modal.confirm({
+            title: `确定删除任务${taskName}`,
+            content: "",
+            onOk() {
+                 _post('/api/task/TaskDelete', {taskName: taskName}, res => {
+                    if (res.code == 200) {
+                        message.success("删除成功", 2, () => window.location.reload())
+                    } else {
+                        message.error(res.msg)
+                    }
+                })
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        })
+
+    }
+
+
     render() {
         const {data, visible} = this.state
         const columns = [
             {
                 title: 'ID',
-                dataIndex: 'id',
-                key: 'id',
+                dataIndex: 'id', key: 'id',
             },
             {
                 title: '任务名称',
@@ -59,14 +79,12 @@ class TaskList extends React.Component {
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) => (
+                render: (value, row) => (
                     <span>
-                    <Button style={{marginLeft: '5px'}} type={'primary'}
-                            onClick={() => message.warning('功能开发中')}>查看</Button>
                     <Button style={{marginLeft: '5px',backgroundColor:'#EC971F',color:'white'}}
                             onClick={() => message.warning('功能开发中')}>编辑</Button>
                     <Button style={{marginLeft: '5px'}} type={'danger'}
-                            onClick={() => message.warning('功能开发中')}>删除</Button>
+                            onClick={() => this.handleDelete(row.taskName)}>删除</Button>
                     </span>),
             }];
 

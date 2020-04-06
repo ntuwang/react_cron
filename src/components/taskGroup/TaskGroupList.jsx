@@ -71,7 +71,6 @@ class TaskGroupList extends React.Component {
                 key: 'action',
                 render: (value, row) => (
                     <span>
-            <Button style={{marginLeft: '5px'}} type={'primary'} onClick={() => message.warning('功能开发中')}>查看</Button>
             <Button style={{marginLeft: '5px',backgroundColor:'#EC971F',color:'white'}} onClick={() => message.warning('功能开发中')}>编辑</Button>
             <Button style={{marginLeft: '5px'}} type={'danger'} onClick={() => this.handleDelete(row.groupName)}>删除</Button>
         </span>
