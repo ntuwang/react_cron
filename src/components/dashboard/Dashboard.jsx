@@ -2,21 +2,41 @@
  * Created by hao.cheng on 2017/5/3.
  */
 import React from 'react';
-import {Row, Col, Card, Timeline, Icon} from 'antd';
+import {Row, Col, Card, Timeline, Icon, message} from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import EchartsViews from './EchartsViews';
 import moment from "moment"
+import {_get, _post} from "@/utils/requests";
 
 
 let date = []
-for(let i=0;i<7;i++){
+for (let i = 0; i < 7; i++) {
     let j = 0 - i
-    let d = moment().add(j,'days').format('YYYY-MM-DD')
+    let d = moment().add(j, 'days').format('YYYY-MM-DD')
     date.unshift(d)
 }
 
 class Dashboard extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+    }
+
+    componentDidMount() {
+        _post('/api/home/dashboard', {}, res => {
+            if (res.code == 200) {
+                this.setState({data: res.data})
+            } else {
+                message.error(res.msg)
+            }
+        })
+    }
+
     render() {
+        const {data} = this.state
         return (
             <div className="gutter-example button-demo">
                 <BreadcrumbCustom/>
@@ -29,7 +49,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="clear">
                                     <div className="text-muted">用户数量</div>
-                                    <h2>3</h2>
+                                    <h2>{data.userLength}</h2>
                                 </div>
                             </div>
                         </Card>
@@ -42,7 +62,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="clear">
                                     <div className="text-muted">任务数量</div>
-                                    <h2>4</h2>
+                                    <h2>{data.taskLength}</h2>
                                 </div>
                             </div>
                         </Card>
@@ -55,7 +75,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="clear">
                                     <div className="text-muted">成功次数</div>
-                                    <h2>802</h2>
+                                    <h2>{data.successTaskLength}</h2>
                                 </div>
                             </div>
                         </Card>
@@ -68,7 +88,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="clear">
                                     <div className="text-muted">失败次数</div>
-                                    <h2>102</h2>
+                                    <h2>{data.failedTaskLength}</h2>
                                 </div>
                             </div>
                         </Card>
@@ -114,42 +134,30 @@ class Dashboard extends React.Component {
                                 </div>
                                 <span className="card-tool"><Icon type="sync"/></span>
                                 <ul className="list-group no-border">
-                                    <li className="list-group-item">
+                                    {data.tLogs && data.tLogs.map(d => {
+
+                                        return (
+                                            <li className="list-group-item">
                                         <span className="pull-left w-40 mr-m">
-                                             <Icon type="close-circle" className="text-2x text-danger "/>
+                                            {
+                                                d.taskLog.status == 0
+                                                    ? <Icon type="check-circle" className="text-2x text-success "/>
+                                                    : <Icon type="close-circle" className="text-2x text-danger "/>
+                                            }
+
                                         </span>
-                                        <div className="clear">
-                                            <span className="block">任务A</span>
-                                            <span className="text-muted">执行失败了！</span>
-                                        </div>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <span className="pull-left w-40 mr-m">
-                                            <Icon type="check-circle" className="text-2x text-success "/>
-                                        </span>
-                                        <div className="clear">
-                                            <span className="block">任务B</span>
-                                            <span className="text-muted">执行成功！</span>
-                                        </div>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <span className="pull-left w-40 mr-m">
-                                             <Icon type="check-circle" className="text-2x text-success "/>
-                                        </span>
-                                        <div className="clear">
-                                            <span className="block">任务C</span>
-                                            <span className="text-muted">执行成功！</span>
-                                        </div>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <span className="pull-left w-40 mr-m">
-                                             <Icon type="check-circle" className="text-2x text-success "/>
-                                        </span>
-                                        <div className="clear">
-                                            <span className="block">任务D</span>
-                                            <span className="text-muted">执行成功！</span>
-                                        </div>
-                                    </li>
+                                                <div className="clear">
+                                                    <span className="block">{d.taskName}</span>
+                                                    {
+                                                        d.taskLog.status == 0
+                                                            ? <span className="text-muted">{d.taskLog.output}</span>
+                                                            : <span className="text-muted">{d.taskLog.error}</span>
+                                                    }
+
+                                                </div>
+                                            </li>
+                                        )
+                                    })}
                                 </ul>
                             </Card>
                         </div>
