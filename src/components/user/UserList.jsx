@@ -7,6 +7,7 @@ import BreadcrumbCustom from "@/components/BreadcrumbCustom";
 import {_get, _post} from "@/utils/requests";
 import tools from "@/utils/tools";
 import UserAdd from "./UserAdd"
+import UserEdit from "./UserEdit"
 
 
 class UserList extends React.Component {
@@ -14,7 +15,9 @@ class UserList extends React.Component {
         super(props);
         this.state = {
             data: [],
-            visible: false
+            visible: false,
+            visibleEdit: false,
+            row_line: {}
         };
     }
 
@@ -53,7 +56,7 @@ class UserList extends React.Component {
     }
 
     render() {
-        const {data, visible} = this.state
+        const {data, visible, visibleEdit, row_line} = this.state
 
         const columns = [
             {
@@ -77,7 +80,7 @@ class UserList extends React.Component {
                 key: 'action',
                 render: (value, row) => (
                     <span>
-            <Button style={{marginLeft: '5px',backgroundColor:'#EC971F',color:'white'}} onClick={() => message.warning('功能开发中')}>编辑</Button>
+            <Button style={{marginLeft: '5px',backgroundColor:'#EC971F',color:'white'}} onClick={() => this.setState({visibleEdit: true,row_line:row})}>编辑</Button>
             <Button style={{marginLeft: '5px'}} type={'danger'} onClick={() => this.handleDelete(row.username)}>删除</Button>
         </span>
                 ),
@@ -115,6 +118,18 @@ class UserList extends React.Component {
                     footer={false}
                 >
                     <UserAdd onCancel={() => this.setState({visible: false})}/>
+                </Modal>
+                <Modal
+                    style={{top: 20}}
+                    visible={visibleEdit}
+                    title="编辑用户"
+                    destroyOnClose
+                    closable
+                    width={'600px'}
+                    onCancel={() => this.setState({visibleEdit: false})}
+                    footer={false}
+                >
+                    <UserEdit onCancel={() => this.setState({visibleEdit: false})} username={row_line.username}/>
                 </Modal>
             </div>
         )
