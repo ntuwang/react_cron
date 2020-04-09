@@ -16,6 +16,7 @@ export default {
             icon: 'code',
             subs: [
                 { key: '/app/task/list', title: '任务列表', component: 'TaskList' },
+                { key: '/app/task/log/list', title: '日志列表', component: 'TaskLog' },
             ],
         },
         {
