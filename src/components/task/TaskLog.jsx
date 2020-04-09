@@ -62,29 +62,23 @@ class TaskList extends React.Component {
                 key: 'taskName',
             },
             {
-                title: '时间表达式',
-                dataIndex: 'cronSpec',
-                key: 'cronSpec',
+                title: '运行状态',
+                dataIndex: 'status',
+                key: 'status',
+                render:(value,row)=>value==0?'成功':'失败'
             },
             {
-                title: '上次运行时间',
-                dataIndex: 'prevTime',
-                key: 'prevTime',
-            },
-            {
-                title: '下次运行时间',
-                dataIndex: 'email',
-                key: 'email',
+                title: '执行时间',
+                dataIndex: 'createTime',
+                key: 'createTime',
             },
             {
                 title: '操作',
                 key: 'action',
                 render: (value, row) => (
                     <span>
-                    <Button style={{marginLeft: '5px',backgroundColor:'#EC971F',color:'white'}}
-                            onClick={() => message.warning('功能开发中')}>编辑</Button>
-                    <Button style={{marginLeft: '5px'}} type={'danger'}
-                            onClick={() => this.handleDelete(row.taskName)}>删除</Button>
+                    <Button type={'primary'}
+                            onClick={() => message.warning('功能开发中')}>查看日志</Button>
                     </span>),
             }];
 
