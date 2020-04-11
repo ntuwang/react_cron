@@ -7,6 +7,7 @@ import BreadcrumbCustom from "@/components/BreadcrumbCustom";
 import {_get, _post} from "@/utils/requests";
 import tools from "@/utils/tools";
 import TaskAdd from "@/components/task/TaskAdd";
+import moment from "moment"
 
 
 class TaskList extends React.Component {
@@ -65,6 +66,16 @@ class TaskList extends React.Component {
                 title: '时间表达式',
                 dataIndex: 'cronSpec',
                 key: 'cronSpec',
+            },
+            {
+                title: '执行命令',
+                dataIndex: 'command',
+                key: 'command',
+            },
+            {
+                title: '创建时间',
+                dataIndex: 'createTime',
+                key: 'createTime',
             },
             {
                 title: '上次运行时间',
