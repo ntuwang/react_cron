@@ -2,13 +2,16 @@
  * Created by hao.cheng on 2017/4/15.
  */
 import React from 'react';
-import {Table, Icon, Button, Row, Col, Card, message, Modal} from 'antd';
+import {Table, Icon, Button, Row, Col, Card, message, Modal, Form, Select, Input, DatePicker} from 'antd';
 import BreadcrumbCustom from "@/components/BreadcrumbCustom";
 import {_get, _post} from "@/utils/requests";
 import tools from "@/utils/tools";
 import TaskAdd from "@/components/task/TaskAdd";
 import {connectAlita} from "redux-alita";
 
+
+const {Option} = Select
+const {RangePicker} = DatePicker;
 
 class TaskList extends React.Component {
     constructor(props) {
@@ -23,9 +26,18 @@ class TaskList extends React.Component {
         _get('/api/taskLog/TaskLogList', {}, res => {
             if (res.code == 200) {
                 // this.setState({data: res.data})
-                setAlitaState({ stateName: 'taskLogRecords', data: res.data });
+                setAlitaState({stateName: 'taskLogRecords', data: res.data});
             } else {
                 message.error(res.msg)
+            }
+        })
+    }
+
+    handleSubmit = e => {
+        e.preventDefault()
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+
             }
         })
     }
@@ -33,6 +45,7 @@ class TaskList extends React.Component {
 
     render() {
         const {visible} = this.state
+        const {getFieldDecorator} = this.props.form
         const taskLogRecords = this.props.taskLogRecords.data
         const columns = [
             {
@@ -48,7 +61,7 @@ class TaskList extends React.Component {
                 title: '运行状态',
                 dataIndex: 'status',
                 key: 'status',
-                render:(value,row)=>value==0?'成功':'失败'
+                render: (value, row) => value == 0 ? '成功' : '失败'
             },
             {
                 title: '执行时间',
@@ -71,14 +84,44 @@ class TaskList extends React.Component {
                 <Row gutter={16}>
                     <Col className="gutter-row" md={24}>
                         <div className="gutter-box">
+
                             <Card
-                                title={
-                                    <div>
-                                        <span>日志列表</span>
-                                    </div>
-                                }
+                                title={'日志列表'}
                                 bordered={false}>
-                                <Table rowKey={(r, i) => i} columns={columns} dataSource={taskLogRecords}/>
+                                <div>
+                                    <Form layout="inline" onSubmit={this.handleSubmit}>
+                                        <Form.Item label="任务名称" style={{display: 'inline-block', width: '265px'}}>
+                                            {getFieldDecorator('taskName', {})(
+                                                <Input
+                                                    placeholder="请输入任务名称"
+                                                />,
+                                            )}
+                                        </Form.Item>
+                                        <Form.Item label="运行状态" style={{marginRight: '28px'}}>
+                                            {getFieldDecorator('status', {})(
+                                                <Select style={{width: 120}} placeholder={"请选择"} allowClear>
+                                                    <Option value={0}>成功</Option>
+                                                    <Option value={-1}>失败</Option>
+                                                </Select>,
+                                            )}
+                                        </Form.Item>
+                                        <Form.Item label="运行时间" style={{marginRight: '28px'}}>
+                                            {getFieldDecorator('datetime', {})(
+                                                <RangePicker/>,
+                                            )}
+                                        </Form.Item>
+
+                                        <Form.Item>
+                                            <Button type="primary" htmlType="submit">
+                                                搜索
+                                            </Button>
+                                        </Form.Item>
+                                    </Form>
+                                </div>
+                                <br/>
+                                <div>
+                                    <Table rowKey={(r, i) => i} columns={columns} dataSource={taskLogRecords}/>
+                                </div>
                             </Card>
                         </div>
                     </Col>
@@ -100,4 +143,5 @@ class TaskList extends React.Component {
     }
 }
 
-export default connectAlita([{taskLogRecords:[]}])(TaskList)
+TaskList = Form.create()(TaskList)
+export default connectAlita([{taskLogRecords: []}])(TaskList)
