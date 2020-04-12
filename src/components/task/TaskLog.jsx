@@ -7,50 +7,33 @@ import BreadcrumbCustom from "@/components/BreadcrumbCustom";
 import {_get, _post} from "@/utils/requests";
 import tools from "@/utils/tools";
 import TaskAdd from "@/components/task/TaskAdd";
+import {connectAlita} from "redux-alita";
 
 
 class TaskList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
             visible: false
         };
     }
 
     componentDidMount() {
+        const {setAlitaState} = this.props;
         _get('/api/taskLog/TaskLogList', {}, res => {
             if (res.code == 200) {
-                this.setState({data: res.data})
+                // this.setState({data: res.data})
+                setAlitaState({ stateName: 'taskLogRecords', data: res.data });
             } else {
                 message.error(res.msg)
             }
         })
     }
 
-    handleDelete(taskName) {
-        Modal.confirm({
-            title: `确定删除任务${taskName}`,
-            content: "",
-            onOk() {
-                 _post('/api/task/TaskDelete', {taskName: taskName}, res => {
-                    if (res.code == 200) {
-                        message.success("删除成功", 2, () => window.location.reload())
-                    } else {
-                        message.error(res.msg)
-                    }
-                })
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        })
-
-    }
-
 
     render() {
-        const {data, visible} = this.state
+        const {visible} = this.state
+        const taskLogRecords = this.props.taskLogRecords.data
         const columns = [
             {
                 title: 'ID',
@@ -95,7 +78,7 @@ class TaskList extends React.Component {
                                     </div>
                                 }
                                 bordered={false}>
-                                <Table rowKey={(r, i) => i} columns={columns} dataSource={data}/>
+                                <Table rowKey={(r, i) => i} columns={columns} dataSource={taskLogRecords}/>
                             </Card>
                         </div>
                     </Col>
@@ -117,4 +100,4 @@ class TaskList extends React.Component {
     }
 }
 
-export default TaskList;
+export default connectAlita([{taskLogRecords:[]}])(TaskList)
