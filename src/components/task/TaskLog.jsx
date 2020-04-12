@@ -8,6 +8,7 @@ import {_get, _post} from "@/utils/requests";
 import tools from "@/utils/tools";
 import TaskAdd from "@/components/task/TaskAdd";
 import {connectAlita} from "redux-alita";
+import moment from "moment"
 
 
 const {Option} = Select
@@ -22,8 +23,13 @@ class TaskList extends React.Component {
     }
 
     componentDidMount() {
+        this.setTaskLogRecords()
+    }
+
+    setTaskLogRecords(data = {}) {
         const {setAlitaState} = this.props;
-        _get('/api/taskLog/TaskLogList', {}, res => {
+        let url = '/api/taskLog/TaskLogList'
+        _post(url, data, res => {
             if (res.code == 200) {
                 // this.setState({data: res.data})
                 setAlitaState({stateName: 'taskLogRecords', data: res.data});
@@ -37,7 +43,13 @@ class TaskList extends React.Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
             if (!err) {
-
+                const {datetime} = values
+                let params = values
+                if (datetime) {
+                    params.startTime = moment(datetime[0]).format('YYYY-MM-DD')
+                    params.endTime = moment(datetime[1]).format('YYYY-MM-DD')
+                }
+                this.setTaskLogRecords(values)
             }
         })
     }
