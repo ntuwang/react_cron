@@ -18,12 +18,20 @@ class TaskList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false
+            visible: false,
+            taskList: []
         };
     }
 
     componentDidMount() {
         this.setTaskLogRecords()
+        _get('/api/task/TaskList', {}, res => {
+            if (res.code == 200) {
+                this.setState({taskList: res.data})
+            } else {
+                message.error(res.msg)
+            }
+        })
     }
 
     setTaskLogRecords(data = {}) {
@@ -58,7 +66,7 @@ class TaskList extends React.Component {
 
 
     render() {
-        const {visible} = this.state
+        const {visible,taskList} = this.state
         const {getFieldDecorator} = this.props.form
         const taskLogRecords = this.props.taskLogRecords.data
         const columns = [
@@ -68,8 +76,9 @@ class TaskList extends React.Component {
             },
             {
                 title: '任务名称',
-                dataIndex: 'taskName',
-                key: 'taskName',
+                dataIndex: 'task',
+                key: 'task',
+                render: (value, row) => value.taskName
             },
             {
                 title: '运行状态',
@@ -104,11 +113,11 @@ class TaskList extends React.Component {
                                 bordered={false}>
                                 <div>
                                     <Form layout="inline" onSubmit={this.handleSubmit}>
-                                        <Form.Item label="任务名称" style={{display: 'inline-block', width: '265px'}}>
+                                        <Form.Item label="任务名称" >
                                             {getFieldDecorator('taskName', {})(
-                                                <Input
-                                                    placeholder="请输入任务名称"
-                                                />,
+                                                <Select style={{width: 200}} placeholder={"请选择"} allowClear>
+                                                    {taskList.map(t=><Option key={t.id} value={0}>{t.taskName}</Option>)}
+                                                </Select>,
                                             )}
                                         </Form.Item>
                                         <Form.Item label="运行状态" style={{marginRight: '28px'}}>
