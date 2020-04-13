@@ -46,9 +46,11 @@ class TaskList extends React.Component {
                 const {datetime} = values
                 let params = values
                 if (datetime) {
-                    params.startTime = moment(datetime[0]).format('YYYY-MM-DD')
-                    params.endTime = moment(datetime[1]).format('YYYY-MM-DD')
+                    let startTime = moment(datetime[0]).format('YYYY-MM-DD')
+                    let endTime = moment(datetime[1]).format('YYYY-MM-DD')
+                    params.datetime = `${startTime} ~ ${endTime}`
                 }
+
                 this.setTaskLogRecords(values)
             }
         })
