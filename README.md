@@ -16,5 +16,16 @@
 
 
 ## 安装说明
+获取源码
 
-未完待续
+	$ git clone https://github.com/ntuwang/react_cron
+运行
+
+	$npm i 
+	$npm run start
+	
+
+http://localhost:8080
+
+帐号：admin
+密码：123456
